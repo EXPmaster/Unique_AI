@@ -115,11 +115,37 @@ class ConvexHull:
                 S.pop()
             S.append(vertices_sorted_index[i])
 
+        """
         while len(S):
             node = S.pop()
             print(self.vertices[node])
+        """
+        return S
+
+    def area(self):
+        Q = self.convhull()
+        point_basis = self.vertices[Q.pop(0)]
+        vectors = []
+        while len(Q):
+            point = self.vertices[Q.pop(0)]
+            vectors.append([point[0] - point_basis[0], point[1] - point_basis[1]])
+
+        last_vec = vectors.pop(0)
+        areas = []
+        while len(vectors):
+            this_vec = vectors.pop(0)
+            cross_product = last_vec[0] * this_vec[1] - last_vec[1] * this_vec[0]
+            areas.append(cross_product / 2)
+            last_vec = this_vec
+
+        size = 0
+        while len(areas):
+            size += areas.pop(0)
+
+        print(size)
 
 
 C = ConvexHull()
-C.get_vertice(8)
-C.convhull()
+C.get_vertice(5)
+C.area()
+# C.convhull()

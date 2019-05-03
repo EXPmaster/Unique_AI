@@ -33,7 +33,7 @@ class RandomForest:
             trainset, validset = bootstrap(dataset)
             tree = DecisionTree(trainset)
             dctree = tree.create_tree(trainset, featurevec)
-            tree.backcut(dctree, validset)
+            # tree.backcut(dctree, validset)
             self.forest.append(dctree)
             self.forest_class.append(tree)
 
@@ -42,7 +42,8 @@ class RandomForest:
         for i in range(len(self.forest)):
             cls.append(self.forest_class[i].predict(self.forest[i], validset))
         m = cls.count(1)
-        if m >= len(cls) / 2:
+        # print(cls)
+        if m > len(cls) / 2:
             return 1
         else:
             return 0

@@ -9,7 +9,7 @@ label = np.array(label)
 
 
 class Tree:
-    def __init__(self, feature=None, value=None, left=None, right=None, data=None, cls=0, to_bottom=False):
+    def __init__(self, feature=None, value=None, left=None, right=None, data=None, cls=None, to_bottom=False):
         self.feature = feature
         self.value = value
         self.left = left
@@ -26,9 +26,8 @@ class DecisionTree:
         # self.weight = np.ones((len(self.trainset), trainset.shape[1]))
         # self.feature = self.trainset.columns.values.tolist()
         # self.trainset = pd.concat([trainset, label], axis=1)
-        self.setnum = 100
+        self.setnum = 50
         self.setgini = 0.01
-        self.leaf = 0
 
     def split_data(self, trainset, feature, featureval):
         dataset1 = trainset[trainset[feature] > featureval]
@@ -111,7 +110,6 @@ class DecisionTree:
                 current = current.left
             else:
                 current = current.right
-
         return current.cls
 
     def accuracy(self, decTree, validset):
@@ -144,6 +142,7 @@ class DecisionTree:
                 accuracy = cur_accuracy
             else:
                 node.to_bottom = False
+                node.cls = None
 
 
 if __name__ == '__main__':
